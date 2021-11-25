@@ -1,11 +1,8 @@
 
 import todoUi from "./todo_ui";
+// import task from "./task";
 
-const render=(function(){
-    let content=document.querySelector('.content');
-    content.appendChild(todoUi.headerElement())
-
-    content.appendChild(todoUi.sideBarElement());
-
-    content.appendChild(todoUi.storage());
+const main=(function(){
+    todoUi.render();
+    // task.taskMain();
 })();
