@@ -5,6 +5,7 @@ import task from "./getTask";
 class todo_ui{
 
      static headerElement(){
+
         let header = document.createElement('div');
         header.classList.add('header');
 
@@ -13,11 +14,12 @@ class todo_ui{
         headerButton.classList.add('headerButton');
         headerButton.innerHTML='<i class="material-icons">list</i>';
         div.appendChild(headerButton);
-        header.appendChild(div);
+       
 
         let h1= document.createElement('h1');
         h1.innerHTML='<i class="material-icons">done_all</i> Todo List'
         header.appendChild(h1);
+        header.appendChild(div);
 
         return header;
     }
@@ -28,13 +30,36 @@ class todo_ui{
 
         let inbox=document.createElement('div');
         inbox.classList.add('sideBarButton');
+        inbox.classList.add('inbox');
         inbox.innerHTML='<i class="material-icons">inbox</i> Inbox';
         sideBar.appendChild(inbox);
 
         let today=document.createElement('div');
         today.classList.add('sideBarButton');
+        today.classList.add('todayTask');
         today.innerHTML='<i class="material-icons">insert_invitation</i> Today';
         sideBar.appendChild(today);
+
+        let low=document.createElement('div');
+        low.classList.add('sideBarButton');
+        low.classList.add('filterButton')
+        low.setAttribute('data-title','Low')
+        low.innerHTML='<i class="material-icons">low_priority</i> Low';
+        sideBar.appendChild(low);
+
+        let medium=document.createElement('div');
+        medium.classList.add('sideBarButton');
+        medium.classList.add('filterButton')
+        medium.setAttribute('data-title','Medium')
+        medium.innerHTML='<i class="material-icons">density_medium</i> Medium';
+        sideBar.appendChild(medium);
+
+        let high=document.createElement('div');
+        high.classList.add('sideBarButton');
+        high.classList.add('filterButton')
+        high.setAttribute('data-title','High')
+        high.innerHTML='<i class="material-icons">priority_high</i> High';
+        sideBar.appendChild(high);
 
         let h3=document.createElement('h3');
         h3.textContent='Projects';
@@ -42,7 +67,7 @@ class todo_ui{
 
         let addProjects=document.createElement('div');
         addProjects.classList.add('sideBarButton')
-        addProjects.innerHTML='<i class="material-icons">add</i> Create Projects';
+        addProjects.innerHTML='<i class="material-icons">add_circle_outline</i> Create Projects';
         sideBar.appendChild(addProjects);
 
         return sideBar;
@@ -59,6 +84,12 @@ class todo_ui{
     static storage(){
         let storage = document.createElement('div');
         storage.classList.add('storage');
+        let taskContainer=document.createElement('div');
+        taskContainer.classList.add('taskContainer');
+        let title=document.createElement('h1')
+        title.classList.add('title');
+        taskContainer.appendChild(title);
+        storage.appendChild(taskContainer);
         storage.appendChild(this.taskButton());
         return storage;
     }
@@ -70,25 +101,37 @@ class todo_ui{
         form.action='./task.js';
         form.method='GET'
         form.innerHTML=
-        "<input type='text' id='name' class=taskProperty placeholder='Title'></input>"+
-        "<input type='date' id='date'></input>"+
-        "<select name='priority' id='priority'><option value='low'>Low</option> <option value='medium'>Medium</option> <option value='high'>High</option></select>"+    
-        "<input type='textarea' id='description' class=taskProperty placeholder='Description'></input>"+
-        "<button id='cancel' class='formButton'>Cancel</button>"+
-        "<button id='add' class='formButton'>Add</button>"
+        "<input type='text' id='name'  placeholder='Title'></input>"+
+        "<div class='inputDiv'><input class='divElm' type='date' id='date'></input><select class='divElm' name='priority' id='priority'><option value='Low'>Low</option> <option value='Medium'>Medium</option> <option value='High'>High</option></select></div>"+
+        "<div class='buttonDiv'><button id='cancel' class='formButton'>Cancel</button><button id='add' class='formButton'>Add</button></div>"
         ;  
         return form;
     }
 
     static hideShowBar(){
-        let sidebar=document.querySelector('.sideBar');
+
+       
+
         function hide(){
-            if(sidebar.style.display != 'none'){
-                sidebar.style.display='none'
+            let sidebar=document.querySelector('.sideBar');
+            let main=document.querySelector('.storage');
+            let menu=document.querySelector('.headerButton');
+            let cssValue= window.getComputedStyle(sidebar, null).getPropertyValue("display");
+            if(cssValue=== 'none'){
+                sidebar.classList.add('active');
+                main.classList.add('mobStorage');
+                menu.innerHTML='<i class="material-icons">close</i>';
+                
+                
             }
             else{
-                sidebar.style.display='block'
+                sidebar.classList.remove('active');
+                main.classList.remove('mobStorage');
+                menu.innerHTML='<i class="material-icons">list</i>';
+                
+    
             }
+
         }
 
         let headerButton=document.querySelector('.headerButton')

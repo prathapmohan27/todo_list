@@ -7,11 +7,13 @@ body{
 .content{
     display: grid;
     grid-template-areas: 
-    "header header header header "
-    "sidebar main main main "
-    "sidebar main main main " 
+    "header header header"
+    "sidebar main main"
+    "sidebar main main" 
     ;
-    grid-template-columns: 150px 1fr;
+    grid-template-columns: .3fr 1fr 1fr; 
+    grid-template-rows:.1fr 1fr;
+    height: 100vh;
 }
 /*header*/
 
@@ -23,8 +25,10 @@ body{
     color: orange;
     font-size: 1em;
     font-weight: 700;
+    justify-content: space-between;
 }
 .header button{
+    display: none;
     padding: 5px 10px;
     margin: 17px;
     font-size: 1.2em;
@@ -35,23 +39,26 @@ body{
     color: white;
 }
 
+
 /*side bar*/
 
 .sideBar{
     grid-area: sidebar;
-    padding: 18px;
     background-color: turquoise;
     left: 0;
-    width: 200px;
-    height:100vh;
     padding-top: 50px;
+    overflow: auto;
 }
 
 .sideBar h3{
     font-size: 1.5em;
     font-weight: 800;
-    margin-bottom: 30px;
-    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 10px;
+    color: rgb(226, 224, 220);
+    background-color: rgb(17, 14, 14);
+    width: 100%;
 }
 
 .sideBar .sideBarButton{
@@ -60,6 +67,11 @@ body{
     cursor: pointer;
     font-weight: 800;
     margin-bottom: 8px;
+    padding: 8px 16px;
+}
+
+.sideBar .sideBarButton:hover{
+    background-color: #04b9c9;
 }
 
 /*storage*/
@@ -67,7 +79,10 @@ body{
 .storage{
     grid-area: main;
     padding: 50px;
-    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center ;
+    overflow: auto;
 }
 
 .storage .addTask{
@@ -85,36 +100,148 @@ body{
     display: flex;
     padding: 30px;
     flex-wrap: wrap;
-    /* flex-direction: column; */
+    align-items: center;
 }
 .taskForm input{
+    padding: 10px;
     margin: 5px;
     border: none;
     outline: none;
     font-size: 1em;
 }
-.taskForm .taskProperty{
-    padding: 10px;
+
+.taskForm .buttonDiv{
+    display: flex;
+    align-items: center;
+    padding: 0;
 }
-.taskForm button{
+
+.taskForm .buttonDiv button{
     padding: 8px 16px;
-    margin-right: 5px;
+    margin: 5px;
     font-weight: 800;
     border-radius: 8px;
     font-size: 1em;
 }
 
-.taskForm #cancel{
+.taskForm .buttonDiv #cancel{
     background: #fa5558;
 }
-.taskForm #add{
+.taskForm .buttonDiv #add{
     background: #91fa34;
 }
-
-.taskForm select{ 
+.taskForm  .inputDiv{
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 5px;
+}
+.taskForm .inputDiv .divElm{ 
+    padding: 10px;
     outline: none;
+    margin: 5px;
 }
 
 .unActive{
     display: none;
 }
+
+/*task Container*/
+
+
+
+.taskContainer{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
+
+.taskContainer h1{
+    color: orange;
+}
+
+.taskContainer .item{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5px;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 600px;
+    margin: 10px;
+    color: white;
+    font-weight: 800;
+    background-color: #2f302f;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px black;
+}
+.taskContainer .item .remove{
+    color: #f71954;
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    padding: 10px;
+}
+
+.taskContainer .item:hover{
+    padding: 10px;
+}
+
+
+@media screen and (max-width: 700px) {
+
+    .content{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .header .headerButton{
+        display: block;
+    }
+    
+    .sideBar{
+        display: none;
+    }
+    /* .sideBar .sideBarButton{
+        text-align: center;
+        width: 100%;
+    } */
+    .storage {
+        grid-area: main;
+        width: 100vw;
+        padding: 10px;
+    }
+
+    .taskContainer .item{
+         width: 100%;
+    }
+
+    .mobStorage{
+        height: 100vh;
+    }
+    .active{
+        display: block;
+    }
+
+    .taskForm{
+        padding: 8px;
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+   
+    .unActive{
+        display: none;
+    }
+  
+    
+  }
+
+  /* @media screen and (max-width: 701px) {
+      .sideBar{
+          display: block;
+      }
+
+  } */
