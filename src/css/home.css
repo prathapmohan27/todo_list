@@ -11,7 +11,7 @@ body{
     "sidebar main main"
     "sidebar main main" 
     ;
-    grid-template-columns: .3fr 1fr 1fr; 
+    grid-template-columns: .4fr 1fr 1fr; 
     grid-template-rows:.1fr 1fr;
     height: 100vh;
 }
@@ -51,7 +51,7 @@ body{
 }
 
 .sideBar h3{
-    font-size: 1.5em;
+    font-size: 2em;
     font-weight: 800;
     margin-bottom: 20px;
     margin-top: 20px;
@@ -68,6 +68,7 @@ body{
     font-weight: 800;
     margin-bottom: 8px;
     padding: 8px 16px;
+    font-size: 1.5em;
 }
 
 .sideBar .sideBarButton:hover{
@@ -188,7 +189,7 @@ body{
 }
 
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
 
     .content{
         display: flex;
@@ -202,10 +203,7 @@ body{
     .sideBar{
         display: none;
     }
-    /* .sideBar .sideBarButton{
-        text-align: center;
-        width: 100%;
-    } */
+ 
     .storage {
         grid-area: main;
         width: 100vw;
@@ -239,9 +237,3 @@ body{
     
   }
 
-  /* @media screen and (max-width: 701px) {
-      .sideBar{
-          display: block;
-      }
-
-  } */
