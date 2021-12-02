@@ -1,6 +1,7 @@
 //  import './css/homeUi.css'
 import './css/home.css'
 import task from "./getTask";
+import project from "./project"
 
 class todo_ui{
 
@@ -25,6 +26,7 @@ class todo_ui{
     }
 
     static sideBarElement(){
+
         let sideBar =document.createElement('div');
         sideBar.classList.add('sideBar');
 
@@ -40,33 +42,22 @@ class todo_ui{
         today.innerHTML='<i class="material-icons">insert_invitation</i> Today';
         sideBar.appendChild(today);
 
-        let low=document.createElement('div');
-        low.classList.add('sideBarButton');
-        low.classList.add('filterButton')
-        low.setAttribute('data-title','Low')
-        low.innerHTML='<i class="material-icons">low_priority</i> Low';
-        sideBar.appendChild(low);
-
-        let medium=document.createElement('div');
-        medium.classList.add('sideBarButton');
-        medium.classList.add('filterButton')
-        medium.setAttribute('data-title','Medium')
-        medium.innerHTML='<i class="material-icons">density_medium</i> Medium';
-        sideBar.appendChild(medium);
-
-        let high=document.createElement('div');
-        high.classList.add('sideBarButton');
-        high.classList.add('filterButton')
-        high.setAttribute('data-title','High')
-        high.innerHTML='<i class="material-icons">priority_high</i> High';
-        sideBar.appendChild(high);
+        let form=document.createElement('form');
+        form.classList.add('filterForm')
+        form.innerHTML=
+        "<select class='filter' name='filter'><option>Filter</option><option value='Low'>Low</option> <option value='Medium'>Medium</option> <option value='High'>High</option></select>";
+        sideBar.appendChild(form);
 
         let h3=document.createElement('h3');
         h3.textContent='Projects';
         sideBar.appendChild(h3);
 
+        let proDiv=document.createElement('div');
+        proDiv.classList.add('proDiv');
+
         let addProjects=document.createElement('div');
         addProjects.classList.add('sideBarButton')
+        addProjects.classList.add('proButton');
         addProjects.innerHTML='<i class="material-icons">add_circle_outline</i> Create Projects';
         sideBar.appendChild(addProjects);
 
@@ -97,7 +88,7 @@ class todo_ui{
     static taskForm(){
         let form=document.createElement('form');
         form.classList.add('taskForm');
-        form.classList.add('unActive')
+        form.classList.add('unActive');
         form.action='./task.js';
         form.method='GET'
         form.innerHTML=
@@ -108,9 +99,9 @@ class todo_ui{
         return form;
     }
 
-    static hideShowBar(){
 
-       
+    //side bar hide show for mobile
+    static hideShowBar(){
 
         function hide(){
             let sidebar=document.querySelector('.sideBar');
@@ -120,16 +111,12 @@ class todo_ui{
             if(cssValue=== 'none'){
                 sidebar.classList.add('active');
                 main.classList.add('mobStorage');
-                menu.innerHTML='<i class="material-icons">close</i>';
-                
-                
+                menu.innerHTML='<i class="material-icons">close</i>';  
             }
             else{
                 sidebar.classList.remove('active');
                 main.classList.remove('mobStorage');
-                menu.innerHTML='<i class="material-icons">list</i>';
-                
-    
+                menu.innerHTML='<i class="material-icons">list</i>';    
             }
 
         }
@@ -139,14 +126,20 @@ class todo_ui{
     }
 
 
-    static displayForm(){
+
+    static displayForm(form){
+        form.classList.remove('unActive');
+    }
+
+
+    static addFunctionality(){
+        this.hideShowBar();
         let addTaskButton=document.querySelector('.addTask');
         let form = document.querySelector('.taskForm');
-        function removeClass(){
-            form.classList.remove('unActive');
-        }
+        addTaskButton.addEventListener('click',function(){
+            todo_ui.displayForm(form);
+        });
 
-        addTaskButton.addEventListener('click',removeClass)
     }
 
     static render(){
@@ -156,9 +149,9 @@ class todo_ui{
         content.appendChild(this.storage());
         let storage=document.querySelector('.storage')
         storage.appendChild(this.taskForm());
-        this.hideShowBar();
-        this.displayForm();
+        this.addFunctionality();     
         task.taskMain();
+        project.renderProForm();
     }
 
 }

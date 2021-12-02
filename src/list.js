@@ -6,7 +6,6 @@ class list{
        
         let div= document.createElement('div');
         div.classList.add('item');
-        // div.setAttribute('data-index',i);
         div.setAttribute('data-name',name);
 
         let checkBox=document.createElement('input');
@@ -27,7 +26,6 @@ class list{
 
         let removeButton=document.createElement('button');
         removeButton.classList.add('remove');
-        // removeButton.setAttribute('data-index',i);
         removeButton.setAttribute('data-name',name);
         removeButton.innerHTML='<i class="material-icons">delete</i> '
         div.appendChild(removeButton);
@@ -36,11 +34,24 @@ class list{
 
     }
 
-    static displayList(taskArray,heading='Inbox'){
-       
-
+    static removeTask(r,taskArray){
         let getLocalTask=JSON.parse(localStorage.getItem('ourTask'));
-      
+        let container=document.querySelector('.taskContainer');
+        let item=document.querySelectorAll('.item');
+        item.forEach((div)=>{
+            if(div.dataset.name===r.dataset.name){
+                let index=taskArray.findIndex(x=>x.name===div.dataset.name);
+                let localIndex=getLocalTask.findIndex(x=>x.name===div.dataset.name)
+                container.removeChild(div);
+                taskArray.splice(index,1);
+                getLocalTask.splice(localIndex,1);
+                localStorage.setItem("ourTask",JSON.stringify(getLocalTask));
+            }
+        })
+
+    }
+
+    static displayList(taskArray,heading='Inbox'){      
         let container=document.querySelector('.taskContainer');
         let title=document.querySelector('.title');
         title.textContent=heading;
@@ -63,33 +74,17 @@ class list{
         }
                
         let check=document.querySelectorAll('.check');
-        let item=document.querySelectorAll('.item');
         let removeButton=document.querySelectorAll('.remove');
-
-        function removeTask(r){
-            item.forEach((div)=>{
-                if(div.dataset.name===r.dataset.name){
-                    let index=taskArray.findIndex(x=>x.name===div.dataset.name);
-                    let localIndex=getLocalTask.findIndex(x=>x.name===div.dataset.name)
-                    container.removeChild(div);
-                    taskArray.splice(index,1);
-                    getLocalTask.splice(localIndex,1);
-                    localStorage.setItem("ourTask",JSON.stringify(getLocalTask));
-                }
-            })
-
-        }
 
         removeButton.forEach(r=>{
             r.onclick=function(){
-                removeTask(r);
+                list.removeTask(r,taskArray);
             }
         });
 
         check.forEach(c=>{
-            
             c.onclick=function(){
-                removeTask(c);
+               list.removeTask(c,taskArray);
             }
         });
 

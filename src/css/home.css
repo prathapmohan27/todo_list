@@ -70,6 +70,26 @@ body{
     padding: 8px 16px;
     font-size: 1.5em;
 }
+.sideBar form {
+    padding: 5px;
+}
+
+.sideBar form .filter{
+    width: 100%;
+    padding: 8px;
+    font-size: 1.5em;
+    border-radius: 8px;
+    outline: none;
+    font-weight: 800;
+    background: transparent;
+    /* margin: 5px; */
+}
+
+.sideBar form .filter option{
+
+    background-color: #34383d;
+    color: white;
+}
 
 .sideBar .sideBarButton:hover{
     background-color: #04b9c9;
