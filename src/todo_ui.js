@@ -54,6 +54,7 @@ class todo_ui{
 
         let proDiv=document.createElement('div');
         proDiv.classList.add('proDiv');
+        sideBar.appendChild(proDiv);
 
         let addProjects=document.createElement('div');
         addProjects.classList.add('sideBarButton')
@@ -75,12 +76,14 @@ class todo_ui{
     static storage(){
         let storage = document.createElement('div');
         storage.classList.add('storage');
+
         let taskContainer=document.createElement('div');
         taskContainer.classList.add('taskContainer');
         let title=document.createElement('h1')
         title.classList.add('title');
         taskContainer.appendChild(title);
         storage.appendChild(taskContainer);
+        
         storage.appendChild(this.taskButton());
         return storage;
     }
@@ -92,9 +95,9 @@ class todo_ui{
         form.action='./task.js';
         form.method='GET'
         form.innerHTML=
-        "<input type='text' id='name'  placeholder='Title'></input>"+
+        "<input type='text' id='name' class='comInput' placeholder='Title'></input>"+
         "<div class='inputDiv'><input class='divElm' type='date' id='date'></input><select class='divElm' name='priority' id='priority'><option value='Low'>Low</option> <option value='Medium'>Medium</option> <option value='High'>High</option></select></div>"+
-        "<div class='buttonDiv'><button id='cancel' class='formButton'>Cancel</button><button id='add' class='formButton'>Add</button></div>"
+        "<div class='buttonDiv'><button id='cancel' class='comButton cancelForm'>Cancel</button><button id='add' class='comButton  addForm'>Add</button></div>"
         ;  
         return form;
     }
@@ -108,6 +111,7 @@ class todo_ui{
             let main=document.querySelector('.storage');
             let menu=document.querySelector('.headerButton');
             let cssValue= window.getComputedStyle(sidebar, null).getPropertyValue("display");
+            
             if(cssValue=== 'none'){
                 sidebar.classList.add('active');
                 main.classList.add('mobStorage');

@@ -2,7 +2,7 @@ body{
     margin: 0;
     padding: 0;
     background: #34383d;
-   overflow: hidden;
+    overflow: hidden;
 }
 .content{
     display: grid;
@@ -24,7 +24,7 @@ body{
     background-color: rgb(0, 0, 0);
     color: orange;
     font-size: 1em;
-    font-weight: 700;
+    font-weight: 800;
     justify-content: space-between;
 }
 .header button{
@@ -47,6 +47,7 @@ body{
     background-color: turquoise;
     left: 0;
     padding-top: 50px;
+    padding-right: 8px;
     overflow: auto;
 }
 
@@ -82,6 +83,8 @@ body{
     outline: none;
     font-weight: 800;
     background: transparent;
+    border: none;
+    cursor: pointer;
     /* margin: 5px; */
 }
 
@@ -94,6 +97,39 @@ body{
 .sideBar .sideBarButton:hover{
     background-color: #04b9c9;
 }
+
+/*form for get project name*/
+
+.projectForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  
+  .projectForm div{
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .proList{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .proRemove{
+    display: none;
+    border: none;
+    z-index: 8;
+    background-color: transparent;
+  }
+
+  .proList:hover .proRemove{
+    display: block;
+      
+  }
+
 
 /*storage*/
 
@@ -122,13 +158,15 @@ body{
     padding: 30px;
     flex-wrap: wrap;
     align-items: center;
+    
 }
-.taskForm input{
+.comInput{
     padding: 10px;
     margin: 5px;
     border: none;
     outline: none;
     font-size: 1em;
+    border-radius: 8px;
 }
 
 .taskForm .buttonDiv{
@@ -137,7 +175,7 @@ body{
     padding: 0;
 }
 
-.taskForm .buttonDiv button{
+.comButton{
     padding: 8px 16px;
     margin: 5px;
     font-weight: 800;
@@ -145,12 +183,13 @@ body{
     font-size: 1em;
 }
 
-.taskForm .buttonDiv #cancel{
+.cancelForm{
     background: #fa5558;
 }
-.taskForm .buttonDiv #add{
+.addForm{
     background: #91fa34;
 }
+
 .taskForm  .inputDiv{
     display: flex;
     align-items: center;
@@ -161,6 +200,7 @@ body{
     padding: 10px;
     outline: none;
     margin: 5px;
+    border-radius: 8px;
 }
 
 .unActive{
@@ -168,7 +208,6 @@ body{
 }
 
 /*task Container*/
-
 
 
 .taskContainer{
@@ -180,6 +219,7 @@ body{
 
 .taskContainer h1{
     color: orange;
+    
 }
 
 .taskContainer .item{
@@ -192,6 +232,7 @@ body{
     margin: 10px;
     color: white;
     font-weight: 800;
+    font-size: 1em;
     background-color: #2f302f;
     border-radius: 10px;
     box-shadow: 5px 5px 5px black;
@@ -257,3 +298,4 @@ body{
     
   }
 
+  

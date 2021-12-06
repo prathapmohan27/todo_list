@@ -1,137 +1,163 @@
 import list from "./list";
 import { format } from 'date-fns';
 
-class task{
+class task {
 
 
     // clear task container child element
-
-    static clearChild(){
-        let con=document.querySelector('.taskContainer');
-        while(con.childNodes.length>1){
+    static clearChild() {
+        let con = document.querySelector('.taskContainer');
+        while (con.childNodes.length > 1) {
             con.removeChild(con.lastChild)
         }
     }
 
 
     // filter function
-
-    static filterTask(arr,title){
-        this.clearChild();     
-        let filterArray= arr.filter(a=>a.priority===title);
-        list.displayList(filterArray,title);
+    static filterTask(arr, fill, title) {
+        this.clearChild();
+        let filterArray = arr.filter(a => a.priority === fill);
+        list.displayList(filterArray, title);
 
     }
 
     // get today task  function
-
-    static getTodayTask(arr){
-        let currentDate=format(new Date(),'yyyy-MM-dd');
-        this.clearChild();
-        let todayArray= arr.filter(a=>a.date===currentDate);
-        list.displayList(todayArray,'Today');
-        // console.log(todayArray);
-
+    static getTodayTask(arr, arrName) {
+        let currentDate = format(new Date(), 'yyyy-MM-dd');
+        let todayArray = arr.filter(a => a.date === currentDate);
+        list.displayList(todayArray, arrName);
     }
 
-    static closeForm(form){
+
+    static closeForm(form) {
         form.reset();
         form.classList.add('unActive');
     }
 
-    static addToArray(form){
-        
-        let taskArray=[];
-        let getArray=JSON.parse(localStorage.getItem('ourTask'));
-        taskArray.push(...getArray);
+    //check local storage
+    static checkLocalStorage(arr) {
+        let getArray = JSON.parse(localStorage.getItem(arr));
+        if (getArray) {
+            return getArray;
+        }
+        return getArray = [];
+    }
 
-        let name=document.getElementById('name').value;
-        let date=document.getElementById('date').value;
-        let priority=document.getElementById('priority').value;
 
-        if(!name||!date||!priority){
+    static addToArray(form, arrName) {
+        let taskArray = [];
+        taskArray.push(...this.checkLocalStorage(arrName));
+
+        let name = document.getElementById('name').value;
+        let date = document.getElementById('date').value;
+        let priority = document.getElementById('priority').value;
+
+
+
+        if (!name || !date || !priority) {
             alert('would please fill form!');
             return;
         }
-
-        const createTask=(name,date,priority)=>{
-            return{name,date,priority}
+        if (taskArray.length > 0 && taskArray.findIndex(e => e.name === name) !== -1) {
+            alert('Already name exist')
+            return;
         }
 
-        let newTask=  createTask(name,date,priority);
+        const createTask = (name, date, priority) => {
+            return { name, date, priority }
+        }
+
+        let newTask = createTask(name, date, priority);
         taskArray.push(newTask);
         form.reset();
         task.closeForm(form)
-        localStorage.setItem('ourTask',JSON.stringify(taskArray));
-        list.displayList(taskArray);
-        
+        localStorage.setItem(arrName, JSON.stringify(taskArray));
+        list.displayList(JSON.parse(localStorage.getItem(arrName)), arrName);
+        return;
+
     }
 
- 
-    static taskMain(){
 
-
-        let localTask=JSON.parse(localStorage.getItem('ourTask'));
-        if(Array.isArray(localTask)&&localTask.length){
-            list.displayList(localTask);
-            // taskArray.push(...localTask);
+    static addButton(form, title) {
+        let add = document.querySelector('#add');
+        add.onclick = (e) => {
+            e.preventDefault();
+            task.addToArray(form, title);
+            task.resetFilter();
+            return;
         }
 
-      
-        let cancel = document.querySelector('#cancel');
-        let form=document.querySelector('.taskForm');
-        let add = document.querySelector('#add');
-        let filterForm=document.querySelector('.filterForm')
-        
+    }
 
-        cancel.addEventListener('click',function(e){
+    static resetFilter() {
+        let filterForm = document.querySelector('.filterForm')
+        filterForm.reset();
+
+    }
+
+
+    static addFilterButton(arrName) {
+
+        let filterButton = document.querySelector('.filter');
+
+        filterButton.addEventListener('change', function () {
+            let fill = document.querySelector('.filter').value;
+            if (fill == 'Filter') {
+                return;
+            }
+            else if (fill) {
+                let localTask = JSON.parse(localStorage.getItem(arrName))
+                task.filterTask(localTask, fill, arrName);
+
+            }
+        });
+
+        //filter today
+        let todayButton = document.querySelector('.todayTask');
+        todayButton.onclick = () => {
+            task.clearChild();
+            let localTask = JSON.parse(localStorage.getItem(arrName))
+            task.getTodayTask(localTask, arrName);
+            task.resetFilter();
+
+
+        }
+
+    }
+
+
+    static taskMain() {
+
+        list.displayList(this.checkLocalStorage('Inbox'));
+
+
+        let cancel = document.querySelector('#cancel');
+        let form = document.querySelector('.taskForm');
+
+        cancel.addEventListener('click', (e) => {
             e.preventDefault();
             task.closeForm(form)
         });
 
-        add.addEventListener('click',function(e){
-            e.preventDefault();
-           task.addToArray(form);
-           localTask=JSON.parse(localStorage.getItem('ourTask'));
-        });
-
-       
-        //filter today
-        let todayButton=document.querySelector('.todayTask');
-        todayButton.addEventListener('click',function(){
-            task.getTodayTask(localTask);
-            filterForm.reset();
-        });
+        this.addButton(form, 'Inbox');
 
         //display ALL
-        let inboxButton=document.querySelector('.inbox');
-        inboxButton.addEventListener('click',function(){
-            list.displayList(localTask,'Inbox');
-            filterForm.reset();
+        let inboxButton = document.querySelector('.inbox');
+        inboxButton.addEventListener('click', () => {
+            let localTask = JSON.parse(localStorage.getItem('Inbox'));
+            task.clearChild();
+            list.displayList(localTask, 'Inbox');
+            task.addButton(form, 'Inbox');
+            task.resetFilter();
+            list.listButton('Inbox');
+            task.addFilterButton('Inbox')
+
         });
 
-        let filterButton =document.querySelector('.filter');
-        filterButton.addEventListener('change',function(){
-            let fill=document.querySelector('.filter').value;
-            if(fill=='Filter'){
-                return;
-            }
-            else if(fill){
-                task.filterTask(localTask,fill);
-            }
-        })
-        // filterButton.forEach(btn=>{
-        //     btn.onclick=function(){
-        //         task.filterTask(localTask,btn.dataset.title);
-        //     }
-        // });
+        this.addFilterButton('Inbox');
 
-
-        
     }
 
-
-       
 }
 
 export default task;
